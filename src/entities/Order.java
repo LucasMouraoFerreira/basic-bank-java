@@ -36,9 +36,14 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "Order [accountNumber = " + accountNumber + ", orderType = " + orderType + ", date = " + sdf.format(date) + ", totalValue = "
-				+ totalValue + "]";
+		return "Order data:\n"
+				+ "accountNumber = " + accountNumber + 
+				", orderType = " + orderType + 
+				"\ndate = " + sdf.format(date) + 
+				", totalValue = " + String.format("%.2f",totalValue) ;
 	}
+
+	
 	
 	
 		

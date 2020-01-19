@@ -36,14 +36,15 @@ public class LoanOrder extends Order {
 		return loanValue;
 	}
 	
-	public void addNumberOfPaidInstallments() {
-		this.numberOfPaidInstallments++;
+	public void addNumberOfPaidInstallments(int number) {
+		this.numberOfPaidInstallments += number;
 	}
 
 	@Override
 	public String toString() {
-		return  super.toString() +"\n" + "TransferOrder [loanValue=" + loanValue + ", numberOfInstallments=" + numberOfInstallments
-				+ ", numberOfPaidInstallments=" + numberOfPaidInstallments + ", valuePerInstallment="
-				+ valuePerInstallment +"]";
+		return  super.toString() +"\nloanValue = " + loanValue + 
+				", numberOfInstallments = " + numberOfInstallments
+				+ "\nnumberOfPaidInstallments = " + numberOfPaidInstallments + 
+				", valuePerInstallment = " + valuePerInstallment;
 	}
 }

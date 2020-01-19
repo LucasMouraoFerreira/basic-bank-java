@@ -1,7 +1,10 @@
 package entities;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import entities.enums.OrderType;
 
 public class Account {
 	
@@ -9,16 +12,19 @@ public class Account {
 	private Integer accountNumber;
 	protected Double balance;
 	private List<Order> orderHistory = new ArrayList<>();
+	private String password;
 	
-	public Account(String holderName, Integer accountNumber, Double balance) {
+	public Account(String holderName, Integer accountNumber, String password ,Double balance) {
 		this.holderName = holderName;
 		this.accountNumber = accountNumber;
 		this.balance = balance;
+		this.password = password;
 	}
 
-	public Account(String holderName, Integer accountNumber) {
+	public Account(String holderName, Integer accountNumber, String password) {
 		this.holderName = holderName;
 		this.accountNumber = accountNumber;
+		this.password = password;
 	}
 	
 	public List<Order> getOrderHistory() {
@@ -27,6 +33,10 @@ public class Account {
 
 	public String getHolderName() {
 		return holderName;
+	}
+	
+	public String getPassword() {
+		return password;
 	}
 
 	public Integer getAccountNumber() {
@@ -37,37 +47,27 @@ public class Account {
 		return balance;
 	}
 	
-	public boolean addOrder(Order order) {
-		if(order != null) {
-			orderHistory.add(order);
-			return true;
-		}
-		return false;
+	public void addOrder(Order order) {
+		orderHistory.add(order);
 	}
 	
-	public boolean removeAccount(Order order){
-		if(order != null && orderHistory.contains(order)){
-			orderHistory.remove(order);
-			return true;
-		}
-		return false;
-	}
-
+	
 	public boolean deposit(double amount) {
 		if(amount > 0) {
 			balance += amount;
+			this.addOrder(new Order(this.accountNumber,OrderType.DEPOSIT,new Date(),amount));
 			return true;
 		}
 		return false;
 	}
 	
 	public boolean withdraw(double amount, Bank bank) {
-		if((amount + bank.getWithdrawCharge()) <= balance) {
+		if((amount + bank.getWithdrawCharge()) <= balance && amount > 0) {
 			balance -= (amount + bank.getWithdrawCharge());
+			this.addOrder(new Order(this.accountNumber, OrderType.WITHDRAW, new Date(),(amount + bank.getWithdrawCharge())));
 			return true;
 		}
 		return false;
 	}
 			
-
 }

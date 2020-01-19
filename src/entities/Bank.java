@@ -10,13 +10,25 @@ public class Bank {
 	private Double loanCharge; // percentage
 	private List<Account> accounts = new ArrayList<>();
 	private Integer numberOfAccounts;
+	private Double savingsAccountIncome; // percentage
 	
-	public Bank(Double trasferCharge, Double withdrawCharge, Double loanCharge) {
+	public Bank(Double trasferCharge, Double withdrawCharge, Double loanCharge, Double savingsAccountIncome) {
 		this.trasferCharge = trasferCharge;
 		this.withdrawCharge = withdrawCharge;
 		this.loanCharge = loanCharge;
+		this.savingsAccountIncome = savingsAccountIncome;
 	}
 
+	public Double getsavingsAccountIncome() {
+		return savingsAccountIncome;
+	}
+
+	public void setSavingsAccountInterest(Double savingsAccountIncome) {
+		if(savingsAccountIncome >= 0.0) {
+			this.savingsAccountIncome = savingsAccountIncome;
+		}		
+	}	
+	
 	public Double getTrasferCharge() {
 		return trasferCharge;
 	}

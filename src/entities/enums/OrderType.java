@@ -1,7 +1,7 @@
 package entities.enums;
 
 public enum OrderType {
-	TRASFER,
+	TRANSFER,
 	DEPOSIT,
 	WITHDRAW,
 	LOAN

@@ -13,7 +13,7 @@ public class Program {
 	public static void main(String[] args) {
 		
 		
-		Account acc = new Account("Lucas Mourão", 1000, 5000.0);
+		Account acc = new Account("Lucas Mourão", 1000, "055555", 5000.0);
 		Order order1 = new Order(1000, OrderType.DEPOSIT , new Date(), 100.0);
 		LoanOrder order2 = new LoanOrder(1000, OrderType.LOAN, new Date(), 300.0, 360.0,
 			3, 0, 120.0);
