@@ -1,10 +1,14 @@
 package entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Account {
 	
 	private String holderName;
 	private Integer accountNumber;
 	protected Double balance;
+	private List<Order> orderHistory = new ArrayList<>();
 	
 	public Account(String holderName, Integer accountNumber, Double balance) {
 		this.holderName = holderName;
@@ -15,6 +19,10 @@ public class Account {
 	public Account(String holderName, Integer accountNumber) {
 		this.holderName = holderName;
 		this.accountNumber = accountNumber;
+	}
+	
+	public List<Order> getOrderHistory() {
+		return orderHistory;
 	}
 
 	public String getHolderName() {
@@ -27,6 +35,22 @@ public class Account {
 
 	public Double getBalance() {
 		return balance;
+	}
+	
+	public boolean addOrder(Order order) {
+		if(order != null) {
+			orderHistory.add(order);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean removeAccount(Order order){
+		if(order != null && orderHistory.contains(order)){
+			orderHistory.remove(order);
+			return true;
+		}
+		return false;
 	}
 
 	public boolean deposit(double amount) {
