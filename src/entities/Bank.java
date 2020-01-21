@@ -17,6 +17,7 @@ public class Bank {
 		this.withdrawCharge = withdrawCharge;
 		this.loanCharge = loanCharge;
 		this.savingsAccountIncome = savingsAccountIncome;
+		numberOfAccounts = 0;
 	}
 
 	public Double getsavingsAccountIncome() {
@@ -74,6 +75,7 @@ public class Bank {
 	public boolean addAccount(Account account) {
 		if (account != null) {
 			accounts.add(account);
+			numberOfAccounts++;
 			return true;
 		}
 		return false;

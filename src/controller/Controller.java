@@ -18,6 +18,7 @@ import entities.SavingsAccount;
 import entities.StandardAccount;
 import entities.TransferOrder;
 import entities.enums.OrderType;
+import views.View;
 
 public class Controller {
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -55,14 +56,14 @@ public class Controller {
 						Account acc = new SavingsAccount(splitVect[0], Integer.parseInt(splitVect[1]), splitVect[2],
 								Double.parseDouble(splitVect[3]), sdf.parse(splitVect[5]),
 								Integer.parseInt(splitVect[6]));
-						SavingsAccount acc1 = (SavingsAccount)acc;
+						SavingsAccount acc1 = (SavingsAccount) acc;
 						acc1.updateIncome(bank); // updates based on the date it runs
 						bank.addAccount(acc1);
 					} else if (splitVect[4].contains("STANDARD")) {
 						Account acc = new StandardAccount(splitVect[0], Integer.parseInt(splitVect[1]), splitVect[2],
 								Double.parseDouble(splitVect[3]), Double.parseDouble(splitVect[5]),
 								Double.parseDouble(splitVect[6]));
-						StandardAccount acc1 = (StandardAccount)acc;
+						StandardAccount acc1 = (StandardAccount) acc;
 						acc1.updateLoans(); // updates based on the date it runs
 						bank.addAccount(acc1);
 					}
@@ -148,6 +149,21 @@ public class Controller {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	public static void manageViews(Bank bank) {
+		while (true) {
+			char aux = View.index();
+			if (aux == 'o') {
+				bank.addAccount(View.openAccount(bank));
+			} else if (aux == 'l') {
+
+			} else if (aux == 'm') {
+
+			} else {
+				return;
+			}
 		}
 	}
 }
