@@ -76,7 +76,7 @@ public class StandardAccount extends Account {
 				if(numberOfInstallments > numberOfPaidInstallments)	{
 					Date dateNow = new Date();
 					Date loanDate = loanOrder.getDate();
-					long differenceInMonths = (dateNow.getTime() - loanDate.getTime())/(1000*3600*24*30);
+					long differenceInMonths = (dateNow.getTime() - loanDate.getTime())/(2592000000L);
 					if(differenceInMonths > numberOfPaidInstallments) {
 						int installmentsToPay = (int)(differenceInMonths - numberOfPaidInstallments);
 						if(installmentsToPay > (numberOfInstallments-numberOfPaidInstallments)) {
@@ -91,4 +91,15 @@ public class StandardAccount extends Account {
 			}
 		}
 	}
+
+	
+	@Override
+	public String toString() {
+		return super.toString() + 
+				";" +"STANDARD" + 
+				";" + String.format("%.2f", loanLimit)  + 
+				";" + String.format("%.2f", transferLimit);
+	}
+	
+	
 }

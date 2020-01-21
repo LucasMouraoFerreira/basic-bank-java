@@ -42,9 +42,10 @@ public class LoanOrder extends Order {
 
 	@Override
 	public String toString() {
-		return  super.toString() +"\nloanValue = " + loanValue + 
-				", numberOfInstallments = " + numberOfInstallments
-				+ "\nnumberOfPaidInstallments = " + numberOfPaidInstallments + 
-				", valuePerInstallment = " + valuePerInstallment;
+		return  super.toString() +
+				";" + String.format("%.2f", loanValue) + 
+				";" + numberOfInstallments + 
+				";" + numberOfPaidInstallments + 
+				";" + String.format("%.2f", valuePerInstallment);
 	}
 }

@@ -27,7 +27,7 @@ public class TransferOrder extends Order {
 	@Override
 	public String toString() {
 		return  super.toString() + 
-				"\nvalueTransferred = " + String.format("%.2f", valueTransferred) + 
-				", accountPaid = " + accountToGetPaid;
+				";" + String.format("%.2f", valueTransferred) + 
+				";" + accountToGetPaid;
 	}		
 }

@@ -1,9 +1,13 @@
 package entities;
 
+import java.text.SimpleDateFormat;
+
 import java.util.Date;
 
 public class SavingsAccount extends Account{
 
+	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+	
 	private Date creationDate;
 	private Integer numberOfMonthsActive;
 	
@@ -33,11 +37,23 @@ public class SavingsAccount extends Account{
 	
 	public void updateIncome(Bank bank) { // function that updates the income each month
 		Date dateNow = new Date();
-		long differenceInMonths = (dateNow.getTime() - creationDate.getTime())/(1000*3600*24*30);
+		long differenceInMonths = (dateNow.getTime() - creationDate.getTime())/(2592000000L);//1000*3600*24*30
 		if(differenceInMonths > numberOfMonthsActive) {
 			int monthsToAdd = (int)(differenceInMonths - numberOfMonthsActive);
 			this.AddMonths(monthsToAdd);
 			balance = balance*(Math.pow((1+bank.getsavingsAccountIncome()),monthsToAdd));
 		}
-	}	
+	}
+
+	@Override
+	public String toString() {
+		return super.toString() + 
+				";" + "SAVINGS" + 
+				";" + sdf.format(creationDate) + 
+				";" + numberOfMonthsActive;
+	}
+	
+	
 }
+
+

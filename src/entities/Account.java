@@ -8,6 +8,7 @@ import entities.enums.OrderType;
 
 public class Account {
 	
+	
 	private String holderName;
 	private Integer accountNumber;
 	protected Double balance;
@@ -68,6 +69,15 @@ public class Account {
 			return true;
 		}
 		return false;
+	}
+	
+	@Override
+	public String toString() {
+		return holderName + 
+				";" + accountNumber + 
+				";" + password +
+				";" + String.format("%.2f", balance) 
+				;
 	}
 			
 }
