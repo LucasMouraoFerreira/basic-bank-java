@@ -158,7 +158,7 @@ public class Controller {
 			if (aux == 'o') {
 				bank.addAccount(View.openAccount(bank));
 			} else if (aux == 'l') {
-
+				View.login(bank);
 			} else if (aux == 'm') {
 
 			} else {

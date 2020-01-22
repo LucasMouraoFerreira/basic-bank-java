@@ -19,8 +19,7 @@ public class Program {
 	public static void main(String[] args) throws NumberFormatException, ParseException {
 		
 		Locale.setDefault(Locale.US);
-		
-		
+				
 		Bank bank = Controller.readFromDatabase();
 		
 		Controller.manageViews(bank);

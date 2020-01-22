@@ -10,21 +10,23 @@ import entities.StandardAccount;
 
 public class View {
 
-	private static Scanner in;
-
+	private static Scanner in = new Scanner(System.in);
+	
 	public static char index() {
 
-		in = new Scanner(System.in);
-
+		
+		
 		System.out.println("\t\t\tOpen a new account (o)");
 		System.out.println("\t\t\tLogin (l)");
 		System.out.println("\t\t\tManage accounts (m)");
 		System.out.println("\t\t\tClose application (c)");
+		System.out.println("\n");
 		char input = in.next().charAt(0);
 		while ((input != 'o') && (input != 'l') && (input != 'm') && (input != 'c')) {
 			System.out.println("Invalid input! try again");
 			input = in.next().charAt(0);
 		}
+		System.out.println("\n\n\n\n\n\n");
 		return input;
 	}
 
@@ -65,7 +67,36 @@ public class View {
 			double loanLimit = in.nextDouble();
 			acc = new StandardAccount(holderName,accountNumber,password, balance,loanLimit,transferLimit);
 		}
+		System.out.println("\n\n\n\n\n\n");
 		return acc;
 	}
 
+	public static void login(Bank bank) {
+		System.out.println("\t\t\tLogin");
+		System.out.print("Account number: ");
+		int accountNumber = in.nextInt();
+		Account acc = bank.getAccounts().stream().filter(x->x.getAccountNumber() == accountNumber).findFirst().orElse(null);
+		if(acc == null) {
+			System.out.println("Account not found!");
+			return;
+		}
+		System.out.print("Password: ");
+		in.nextLine();
+		String password = in.nextLine();
+		while(!acc.getPassword().contains(password) && password.length() != 6) {
+			System.out.println("Wrong password! try again");
+			System.out.print("Password: ");
+			password = in.nextLine();
+		}
+		System.out.println("\n\n\n\n\n\n");
+	}
+
+	public static void accountLogged() {
+		System.out.println("\t\t\t\t\tBack (b)");
+		System.out.println("\t\t\tTransfer (t)");
+		System.out.println("\t\t\tGet a loan (l)");
+		System.out.println("\t\t\tWithdraw (w)");
+		System.out.println("\t\t\tDeposit (d)");
+		System.out.println("\t\t\tOrder history (o)");
+	}
 }
