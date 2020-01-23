@@ -18,7 +18,7 @@ public class View {
 	
 	private static Scanner in = new Scanner(System.in);
 
-	public static char index() {
+	public static char indexView() {
 		System.out.println("\t\t\tOpen a new account (o)");
 		System.out.println("\t\t\tLogin (l)");
 		System.out.println("\t\t\tManage accounts (m)");
@@ -33,7 +33,7 @@ public class View {
 		return input;
 	}
 
-	public static Account openAccount(Bank bank) {
+	public static Account openAccountView(Bank bank) {
 		Account acc;
 		int accountNumber = 1000 + bank.getNumberOfAccounts();
 		System.out.println("Enter Account data:");
@@ -73,7 +73,7 @@ public class View {
 		return acc;
 	}
 
-	public static Account login(Bank bank) {
+	public static Account loginView(Bank bank) {
 		System.out.println("\t\t\tLogin");
 		System.out.print("Account number: ");
 		int accountNumber = in.nextInt();
@@ -95,7 +95,7 @@ public class View {
 		return acc;
 	}
 
-	public static char accountLogged(Account acc) {
+	public static char accountLoggedView(Account acc) {
 		System.out.println("\t\t\t\t\tBack (b)");
 		System.out.println("Number: " + acc.getAccountNumber() + " Holder: "
 		+ acc.getHolderName() + " Balance: " + acc.getBalance());
@@ -202,6 +202,87 @@ public class View {
 				+"\nInstallments: " + ((LoanOrder)order).getNumberOfPaidInstallments() + "/" +((LoanOrder)order).getNumberOfInstallments());
 			}
 			System.out.println();
+		}
+		System.out.println("\n\n\n");
+	}
+
+	public static char manageBankView() {
+		System.out.println("\t\t\t\t\tBack (b)");
+		System.out.println("Change charges value (c)");
+		System.out.println("Delete account (d)");
+		System.out.println("Account information (i)");
+		char input = in.next().charAt(0);
+		while ((input != 'b') && (input != 'c') && (input != 'd') && (input != 'i')) {
+			System.out.println("Invalid input! try again");
+			input = in.next().charAt(0);
+		}
+		System.out.println("\n\n\n");
+		return input;
+	}
+
+	public static void changeChargesView(Bank bank) {
+		System.out.println("CHANGE CHARGES");
+		System.out.println("Do you want to change the loan charge? (y/n)");
+		char input = in.next().charAt(0);
+		if(input == 'y') {
+			System.out.print("Enter new value: ");
+			double loanCharge = in.nextDouble();
+			bank.setLoanCharge(loanCharge);
+		}
+		System.out.println("Do you want to change the transfer charge? (y/n)");
+		input = in.next().charAt(0);
+		if(input == 'y') {
+			System.out.print("Enter new value: ");
+			double transferCharge = in.nextDouble();
+			bank.setTransferCharge(transferCharge);
+		}
+		System.out.println("Do you want to change the withdraw charge? (y/n)");
+		input = in.next().charAt(0);
+		if(input == 'y') {
+			System.out.print("Enter new value: ");
+			double withdrawCharge = in.nextDouble();
+			bank.setWithdrawCharge(withdrawCharge);
+		}
+		System.out.println("Do you want to change the savings account income? (y/n)");
+		input = in.next().charAt(0);
+		if(input == 'y') {
+			System.out.print("Enter new value: ");
+			double income = in.nextDouble();
+			bank.setSavingsAccountIncome(income);;
+		}
+		System.out.println("\n\n\n");
+		
+	}
+
+	public static void deleteAccountView(Bank bank) {
+		System.out.println("DELETE ACCOUNT");
+		System.out.print("Enter account number: ");
+		int accountNumber = in.nextInt();
+		Account acc = bank.getAccounts().stream().filter(x -> x.getAccountNumber() == accountNumber).findFirst()
+				.orElse(null);
+		if(acc == null) {
+			System.out.println("Account not found!\n\n\n");
+			return;
+		}
+		bank.removeAccount(acc);
+		System.out.println("Account removed\n\n\n");
+	}
+
+	public static void accountInformationView(Bank bank) {
+		System.out.println("ACCOUNT INFORMATION");
+		System.out.print("Enter account number: ");
+		int accountNumber = in.nextInt();
+		Account acc = bank.getAccounts().stream().filter(x -> x.getAccountNumber() == accountNumber).findFirst()
+				.orElse(null);
+		if(acc == null) {
+			System.out.println("Account not found!\n\n\n");
+			return;
+		}
+		System.out.println("Holder :" + acc.getHolderName() + " -- Balance: " + String.format("%.2f", acc.getBalance()));
+		if(acc instanceof StandardAccount) {
+			System.out.println("Account Type: Standard" );
+		}else {
+			System.out.println("Account Type: Savings" );
 		}
 		System.out.println("\n\n\n");
 	}

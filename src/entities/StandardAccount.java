@@ -40,13 +40,13 @@ public class StandardAccount extends Account {
 	}
 
 	public boolean transfer(Bank bank, int accountNumber, double amount) {
-		if(amount > 0 && amount <= transferLimit && balance >= (amount+bank.getTrasferCharge())) {
+		if(amount > 0 && amount <= transferLimit && balance >= (amount+bank.getTransferCharge())) {
 			Account acc = bank.getAccounts().stream().filter(x -> x.getAccountNumber() == accountNumber).findFirst().orElse(null);
 			if(acc != null) {
 				acc.deposit(amount);
-				balance -= (amount + bank.getTrasferCharge());
+				balance -= (amount + bank.getTransferCharge());
 				this.addOrder(new TransferOrder(this.getAccountNumber(), OrderType.TRANSFER, new Date(),
-						amount + bank.getTrasferCharge(), amount,
+						amount + bank.getTransferCharge(), amount,
 						accountNumber));
 				return true;
 			}

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Bank {
 
-	private Double trasferCharge; // absolute value
+	private Double transferCharge; // absolute value
 	private Double withdrawCharge; // absolute value
 	private Double loanCharge; // percentage
 	private List<Account> accounts = new ArrayList<>();
@@ -13,7 +13,7 @@ public class Bank {
 	private Double savingsAccountIncome; // percentage
 
 	public Bank(Double trasferCharge, Double withdrawCharge, Double loanCharge, Double savingsAccountIncome) {
-		this.trasferCharge = trasferCharge;
+		this.transferCharge = trasferCharge;
 		this.withdrawCharge = withdrawCharge;
 		this.loanCharge = loanCharge;
 		this.savingsAccountIncome = savingsAccountIncome;
@@ -30,13 +30,13 @@ public class Bank {
 		}
 	}
 
-	public Double getTrasferCharge() {
-		return trasferCharge;
+	public Double getTransferCharge() {
+		return transferCharge;
 	}
 
-	public void setTrasferCharge(Double trasferCharge) {
-		if (trasferCharge >= 0.0) {
-			this.trasferCharge = trasferCharge;
+	public void setTransferCharge(Double transferCharge) {
+		if (transferCharge >= 0.0) {
+			this.transferCharge = transferCharge;
 		}
 	}
 
@@ -91,7 +91,7 @@ public class Bank {
 
 	@Override
 	public String toString() {
-		return trasferCharge + 
+		return transferCharge + 
 				";" + withdrawCharge + 
 				";" + loanCharge + 
 				";" + savingsAccountIncome;

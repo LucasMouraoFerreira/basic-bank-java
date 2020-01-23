@@ -36,7 +36,7 @@ public class Controller {
 				String line = br.readLine();
 				if (line != null) {
 					String splitVect[] = line.split(";");
-					bank.setTrasferCharge(Double.parseDouble(splitVect[0]));
+					bank.setTransferCharge(Double.parseDouble(splitVect[0]));
 					bank.setWithdrawCharge(Double.parseDouble(splitVect[1]));
 					bank.setLoanCharge(Double.parseDouble(splitVect[2]));
 					bank.setSavingsAccountIncome(Double.parseDouble(splitVect[3]));
@@ -154,22 +154,40 @@ public class Controller {
 
 	public static void manageApplication(Bank bank) {
 		while (true) {
-			char aux = View.index();
+			char aux = View.indexView();
 			if (aux == 'o') {
-				bank.addAccount(View.openAccount(bank));
+				bank.addAccount(View.openAccountView(bank));
 			} else if (aux == 'l') {
-				Account acc = View.login(bank);
+				Account acc = View.loginView(bank);
 				Controller.manageAccountLogged(acc, bank);
 			} else if (aux == 'm') {
-				
+				Controller.manageBank(bank);
 			} else {
 				return;
 			}
 		}
 	}
 
+	public static void manageBank(Bank bank) {
+		char input = View.manageBankView();
+		while (input != 'b') {
+			switch (input) {
+			case 'c':
+				View.changeChargesView(bank);
+				break;
+			case 'd':
+				View.deleteAccountView(bank);
+				break;
+			case 'i':
+				View.accountInformationView(bank);
+				break;
+			}
+			input = View.manageBankView();
+		}
+	}
+
 	public static void manageAccountLogged(Account acc, Bank bank) {
-		char input = View.accountLogged(acc);
+		char input = View.accountLoggedView(acc);
 		while (input != 'b') {
 			switch (input) {
 			case 't':
@@ -188,7 +206,7 @@ public class Controller {
 				View.orderHistoryView(acc);
 				break;
 			}
-			input = View.accountLogged(acc);
+			input = View.accountLoggedView(acc);
 		}
 	}
 }
