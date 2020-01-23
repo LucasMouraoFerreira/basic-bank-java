@@ -1,18 +1,12 @@
 package application;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+
 import java.util.Locale;
 
 import controller.Controller;
-import entities.Account;
+
 import entities.Bank;
-import entities.LoanOrder;
-import entities.Order;
-import entities.SavingsAccount;
-import entities.enums.OrderType;
 
 public class Program {
 
@@ -22,7 +16,7 @@ public class Program {
 				
 		Bank bank = Controller.readFromDatabase();
 		
-		Controller.manageViews(bank);
+		Controller.manageApplication(bank);
 		
 		Controller.writeToDatabase(bank);
 	

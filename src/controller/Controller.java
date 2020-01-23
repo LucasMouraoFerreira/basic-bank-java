@@ -152,18 +152,43 @@ public class Controller {
 		}
 	}
 
-	public static void manageViews(Bank bank) {
+	public static void manageApplication(Bank bank) {
 		while (true) {
 			char aux = View.index();
 			if (aux == 'o') {
 				bank.addAccount(View.openAccount(bank));
 			} else if (aux == 'l') {
-				View.login(bank);
+				Account acc = View.login(bank);
+				Controller.manageAccountLogged(acc, bank);
 			} else if (aux == 'm') {
-
+				
 			} else {
 				return;
 			}
+		}
+	}
+
+	public static void manageAccountLogged(Account acc, Bank bank) {
+		char input = View.accountLogged(acc);
+		while (input != 'b') {
+			switch (input) {
+			case 't':
+				View.transferView(acc, bank);
+				break;
+			case 'l':
+				View.loanView(acc, bank);
+				break;
+			case 'w':
+				View.withdrawView(acc, bank);
+				break;
+			case 'd':
+				View.depositView(acc);
+				break;
+			case 'o':
+				View.orderHistoryView(acc);
+				break;
+			}
+			input = View.accountLogged(acc);
 		}
 	}
 }

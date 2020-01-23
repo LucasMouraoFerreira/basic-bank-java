@@ -39,7 +39,7 @@ public class StandardAccount extends Account {
 		this.transferLimit = transferLimit;
 	}
 
-	public boolean BankTransfer(Bank bank, int accountNumber, double amount) {
+	public boolean transfer(Bank bank, int accountNumber, double amount) {
 		if(amount > 0 && amount <= transferLimit && balance >= (amount+bank.getTrasferCharge())) {
 			Account acc = bank.getAccounts().stream().filter(x -> x.getAccountNumber() == accountNumber).findFirst().orElse(null);
 			if(acc != null) {
@@ -55,11 +55,12 @@ public class StandardAccount extends Account {
 		return false;
 	}
 	
-	public boolean bankLoan(Bank bank ,double amount, int numberOfInstallments) {
+	public boolean loan(Bank bank ,double amount, int numberOfInstallments) {
 		if(amount > 0 && amount <= loanLimit) {
 			balance += amount;
 			this.addOrder(new LoanOrder(this.getAccountNumber(), OrderType.LOAN, new Date(), amount, amount*(1+bank.getLoanCharge()),
 				numberOfInstallments, 0, (amount*(1+bank.getLoanCharge()))/numberOfInstallments));
+			return true;
 		}
 		return false;
 	}
