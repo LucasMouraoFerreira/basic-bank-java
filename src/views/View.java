@@ -80,7 +80,7 @@ public class View {
 		Account acc = bank.getAccounts().stream().filter(x -> x.getAccountNumber() == accountNumber).findFirst()
 				.orElse(null);
 		if (acc == null) {
-			System.out.println("Account not found!");
+			System.out.println("Account not found!\n\n\n");
 			return null;
 		}
 		System.out.print("Password: ");
@@ -96,12 +96,12 @@ public class View {
 	}
 
 	public static char accountLoggedView(Account acc) {
-		System.out.println("\t\t\t\t\tBack (b)");
+		System.out.println("\t\t\t\t\tBack (b)\n");
 		System.out.println("Number: " + acc.getAccountNumber() + " Holder: "
-		+ acc.getHolderName() + " Balance: " + acc.getBalance());
+		+ acc.getHolderName() + " Balance: $" + String.format("%.2f", acc.getBalance())  + "\n");
 		if (acc instanceof StandardAccount) {
-			System.out.println("Transfer Limit: " + ((StandardAccount) acc).getTransferLimit()
-					+ " Loan limit: " + ((StandardAccount) acc).getLoanLimit());
+			System.out.println("Transfer Limit: $" + String.format("%.2f", ((StandardAccount) acc).getTransferLimit())
+					+ " Loan limit: $" + String.format("%.2f", ((StandardAccount) acc).getLoanLimit()) + "\n");
 			System.out.println("\t\t\tTransfer (t)");
 			System.out.println("\t\t\tGet a loan (l)");
 		}
@@ -130,7 +130,7 @@ public class View {
 		StandardAccount accAux = (StandardAccount) acc;
 		if (!accAux.transfer(bank, accountNumber, amount)) {
 			System.out.println("Transfer failed!");
-			System.out.println("Account not found, insufficient balance or value is above the limit");
+			System.out.println("Account not found, insufficient balance or value is above the limit\n\n\n");
 			return;
 		}
 		System.out.println("Successful transfer!");
@@ -154,7 +154,7 @@ public class View {
 		StandardAccount accAux = (StandardAccount) acc;
 		if (!(accAux.loan(bank, loanAmount,numberOfInstallments))) {
 			System.out.println("Loan failed!");
-			System.out.println("Value is above the limit");
+			System.out.println("Value is above the limit\n\n\n");
 			return;
 		}
 		System.out.println("Successful loan! Enjoy the money!");
@@ -167,7 +167,7 @@ public class View {
 		double withdrawAmount = in.nextDouble();
 		if(!acc.withdraw(withdrawAmount, bank)) {
 			System.out.println("Withdraw failed!");
-			System.out.println("Insufficient balance");
+			System.out.println("Insufficient balance\n\n\n");
 			return;
 		}
 		
@@ -180,7 +180,7 @@ public class View {
 		System.out.print("Enter the amount($) you want to deposit: ");
 		double depositAmount = in.nextDouble();
 		if(!acc.deposit(depositAmount)) {
-			System.out.println("Deposit failed!");
+			System.out.println("Deposit failed!\n\n\n");
 			return;
 		}
 		
@@ -195,14 +195,17 @@ public class View {
 			+"\nDate: " + sdf.format(order.getDate()));
 			if(order instanceof TransferOrder) {
 				System.out.println("Total transferred: $" + String.format("%.2f", ((TransferOrder)order).getValueTransferred())
-				+ "Account that received: " + ((TransferOrder)order).getAccountToGetPaid());
+				+ " Account that received: " + ((TransferOrder)order).getAccountToGetPaid());
 			}else if(order instanceof LoanOrder) {
 				System.out.println("Loan total value: $" + String.format("%.2f", ((LoanOrder)order).getLoanValue())
-				+ " Value per installment: " + String.format("%.2f", ((LoanOrder)order).getValuePerInstallment())
+				+ " Value per installment: $" + String.format("%.2f", ((LoanOrder)order).getValuePerInstallment())
 				+"\nInstallments: " + ((LoanOrder)order).getNumberOfPaidInstallments() + "/" +((LoanOrder)order).getNumberOfInstallments());
 			}
 			System.out.println();
 		}
+		System.out.println("Back (b)");
+		in.nextLine();
+		in.nextLine().charAt(0);
 		System.out.println("\n\n\n");
 	}
 

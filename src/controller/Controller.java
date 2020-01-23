@@ -155,14 +155,18 @@ public class Controller {
 	public static void manageApplication(Bank bank) {
 		while (true) {
 			char aux = View.indexView();
-			if (aux == 'o') {
+			switch (aux) {
+			case 'o':
 				bank.addAccount(View.openAccountView(bank));
-			} else if (aux == 'l') {
+				break;
+			case 'l':
 				Account acc = View.loginView(bank);
 				Controller.manageAccountLogged(acc, bank);
-			} else if (aux == 'm') {
+				break;
+			case 'm':
 				Controller.manageBank(bank);
-			} else {
+				break;
+			default:
 				return;
 			}
 		}
