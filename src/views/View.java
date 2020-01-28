@@ -17,6 +17,11 @@ public class View {
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	
 	private static Scanner in = new Scanner(System.in);
+	
+	public static void clearScreen() {
+		System.out.print("\033[H\033[2J");
+		System.out.flush();
+	}
 
 	public static char indexView() {
 		System.out.println("\t\t\tOpen a new account (o)");
@@ -29,7 +34,7 @@ public class View {
 			System.out.println("Invalid input! try again");
 			input = in.next().charAt(0);
 		}
-		System.out.println("\n\n\n");
+		clearScreen();
 		return input;
 	}
 
@@ -69,7 +74,12 @@ public class View {
 			double loanLimit = in.nextDouble();
 			acc = new StandardAccount(holderName, accountNumber, password, balance, loanLimit, transferLimit);
 		}
-		System.out.println("\n\n\n");
+		System.out.println("Your account number: " + accountNumber);
+		System.out.println("Account Created!");
+		System.out.println("\nPress \"Enter\" to leave");
+		in.nextLine();
+		in.nextLine();
+		clearScreen();
 		return acc;
 	}
 
@@ -80,7 +90,11 @@ public class View {
 		Account acc = bank.getAccounts().stream().filter(x -> x.getAccountNumber() == accountNumber).findFirst()
 				.orElse(null);
 		if (acc == null) {
-			System.out.println("Account not found!\n\n\n");
+			System.out.println("Account not found!");
+			System.out.println("Press \"Enter\" to leave");
+			in.nextLine();
+			in.nextLine();
+			clearScreen();
 			return null;
 		}
 		System.out.print("Password: ");
@@ -91,7 +105,7 @@ public class View {
 			System.out.print("Password: ");
 			password = in.nextLine();
 		}
-		System.out.println("\n\n\n");
+		clearScreen();
 		return acc;
 	}
 
@@ -114,7 +128,7 @@ public class View {
 			System.out.println("Invalid input! try again");
 			input = in.next().charAt(0);
 		}
-		System.out.println("\n\n\n");
+		clearScreen();
 		return input;
 	}
 
@@ -130,11 +144,17 @@ public class View {
 		StandardAccount accAux = (StandardAccount) acc;
 		if (!accAux.transfer(bank, accountNumber, amount)) {
 			System.out.println("Transfer failed!");
-			System.out.println("Account not found, insufficient balance or value is above the limit\n\n\n");
+			System.out.println("Account not found, insufficient balance or value is above the limit");
+			System.out.println("Press \"Enter\" to leave");
+			in.nextLine();
+			in.nextLine();
+			clearScreen();
 			return;
 		}
-		System.out.println("Successful transfer!");
-		System.out.println("\n\n\n");
+		System.out.println("Successful transfer!\nPress \"Enter\" to leave");
+		in.nextLine();
+		in.nextLine();
+		clearScreen();
 	}
 
 	public static void loanView(Account acc, Bank bank) {
@@ -144,21 +164,26 @@ public class View {
 		System.out.println("LOAN:");
 		System.out.print("Enter the loan amount($): ");
 		double loanAmount = in.nextDouble();
-		System.out.println("Total amount to be paid starting 30 days from now:" + loanAmount *(1+ bank.getLoanCharge()));
+		System.out.println("Total amount to be paid starting 30 days from now: " + loanAmount *(1+ bank.getLoanCharge()));
 		System.out.print("Enter the number of installments(1-12): ");
 		int numberOfInstallments = in.nextInt();
 		while(numberOfInstallments < 1 || numberOfInstallments > 12) {
-			System.out.print("Invalid number of installments! try again:");
+			System.out.print("Invalid number of installments! try again: ");
 			numberOfInstallments = in.nextInt();
 		}
 		StandardAccount accAux = (StandardAccount) acc;
 		if (!(accAux.loan(bank, loanAmount,numberOfInstallments))) {
 			System.out.println("Loan failed!");
-			System.out.println("Value is above the limit\n\n\n");
+			System.out.println("Value is above the limit\nPress \"Enter\" to leave");
+			in.nextLine();
+			in.nextLine();
+			clearScreen();
 			return;
 		}
-		System.out.println("Successful loan! Enjoy the money!");
-		System.out.println("\n\n\n");
+		System.out.println("Successful loan! Enjoy the money!\nPress \"Enter\" to leave");
+		in.nextLine();
+		in.nextLine();
+		clearScreen();
 	}
 
 	public static void withdrawView(Account acc, Bank bank) {
@@ -167,12 +192,18 @@ public class View {
 		double withdrawAmount = in.nextDouble();
 		if(!acc.withdraw(withdrawAmount, bank)) {
 			System.out.println("Withdraw failed!");
-			System.out.println("Insufficient balance\n\n\n");
+			System.out.println("Insufficient balance");
+			System.out.println("Press \"Enter\" to leave");
+			in.nextLine();
+			in.nextLine();
+			clearScreen();
 			return;
 		}
 		
-		System.out.println("Successful Withdraw! Enjoy the money!");
-		System.out.println("\n\n\n");
+		System.out.println("Successful Withdraw! Enjoy the money!\nPress \"Enter\" to leave");
+		in.nextLine();
+		in.nextLine();
+		clearScreen();
 	}
 	
 	public static void depositView(Account acc) {
@@ -180,12 +211,18 @@ public class View {
 		System.out.print("Enter the amount($) you want to deposit: ");
 		double depositAmount = in.nextDouble();
 		if(!acc.deposit(depositAmount)) {
-			System.out.println("Deposit failed!\n\n\n");
+			System.out.println("Deposit failed!");
+			System.out.println("Press \"Enter\" to leave");
+			in.nextLine();
+			in.nextLine();
+			clearScreen();
 			return;
 		}
 		
-		System.out.println("Successful deposit!");
-		System.out.println("\n\n\n");
+		System.out.println("Successful deposit!\nPress \"Enter\" to leave");
+		in.nextLine();
+		in.nextLine();
+		clearScreen();
 	}
 
 	public static void orderHistoryView(Account acc) {
@@ -203,10 +240,10 @@ public class View {
 			}
 			System.out.println();
 		}
-		System.out.println("Back (b)");
+		System.out.println("\nPress \"Enter\" to leave");
 		in.nextLine();
-		in.nextLine().charAt(0);
-		System.out.println("\n\n\n");
+		in.nextLine();
+		clearScreen();
 	}
 
 	public static char manageBankView() {
@@ -219,7 +256,7 @@ public class View {
 			System.out.println("Invalid input! try again");
 			input = in.next().charAt(0);
 		}
-		System.out.println("\n\n\n");
+		clearScreen();
 		return input;
 	}
 
@@ -253,7 +290,11 @@ public class View {
 			double income = in.nextDouble();
 			bank.setSavingsAccountIncome(income);;
 		}
-		System.out.println("\n\n\n");
+		System.out.println("Charges changed!");
+		System.out.println("\nPress \"Enter\" to leave");
+		in.nextLine();
+		in.nextLine();
+		clearScreen();
 		
 	}
 
@@ -264,11 +305,18 @@ public class View {
 		Account acc = bank.getAccounts().stream().filter(x -> x.getAccountNumber() == accountNumber).findFirst()
 				.orElse(null);
 		if(acc == null) {
-			System.out.println("Account not found!\n\n\n");
+			System.out.println("Account not found!");
+			System.out.println("\nPress \"Enter\" to leave");
+			in.nextLine();
+			in.nextLine();
+			clearScreen();
 			return;
 		}
 		bank.removeAccount(acc);
-		System.out.println("Account removed\n\n\n");
+		System.out.println("Account removed\nPress \"Enter\" to leave");
+		in.nextLine();
+		in.nextLine();
+		clearScreen();
 	}
 
 	public static void accountInformationView(Bank bank) {
@@ -278,15 +326,22 @@ public class View {
 		Account acc = bank.getAccounts().stream().filter(x -> x.getAccountNumber() == accountNumber).findFirst()
 				.orElse(null);
 		if(acc == null) {
-			System.out.println("Account not found!\n\n\n");
+			System.out.println("Account not found!");
+			System.out.println("\nPress \"Enter\" to leave");
+			in.nextLine();
+			in.nextLine();
+			clearScreen();
 			return;
 		}
-		System.out.println("Holder :" + acc.getHolderName() + " -- Balance: " + String.format("%.2f", acc.getBalance()));
+		System.out.println("Holder: " + acc.getHolderName() + " -- Balance: " + String.format("%.2f", acc.getBalance()));
 		if(acc instanceof StandardAccount) {
 			System.out.println("Account Type: Standard" );
 		}else {
 			System.out.println("Account Type: Savings" );
 		}
-		System.out.println("\n\n\n");
+		System.out.println("\nPress \"Enter\" to leave");
+		in.nextLine();
+		in.nextLine();
+		clearScreen();
 	}
 }
