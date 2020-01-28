@@ -3,6 +3,8 @@ package entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import exceptions.BankException;
+
 public class Bank {
 
 	private Double transferCharge; // absolute value
@@ -12,8 +14,8 @@ public class Bank {
 	private Integer numberOfAccounts;
 	private Double savingsAccountIncome; // percentage
 
-	public Bank(Double trasferCharge, Double withdrawCharge, Double loanCharge, Double savingsAccountIncome) {
-		this.transferCharge = trasferCharge;
+	public Bank(Double trasferCharge, Double withdrawCharge, Double loanCharge, Double savingsAccountIncome){
+		this.transferCharge =trasferCharge;
 		this.withdrawCharge = withdrawCharge;
 		this.loanCharge = loanCharge;
 		this.savingsAccountIncome = savingsAccountIncome;
@@ -24,40 +26,48 @@ public class Bank {
 		return savingsAccountIncome;
 	}
 
-	public void setSavingsAccountIncome(Double savingsAccountIncome) {
-		if (savingsAccountIncome >= 0.0) {
+	public void setSavingsAccountIncome(Double savingsAccountIncome) throws BankException {
+		if (savingsAccountIncome >= 0.0 && savingsAccountIncome <= 1.0) {
 			this.savingsAccountIncome = savingsAccountIncome;
+			return;
 		}
+		throw new BankException("Value must be between 0.0 and 1.0");
 	}
 
 	public Double getTransferCharge() {
 		return transferCharge;
 	}
 
-	public void setTransferCharge(Double transferCharge) {
+	public void setTransferCharge(Double transferCharge) throws BankException {
 		if (transferCharge >= 0.0) {
 			this.transferCharge = transferCharge;
+			return;
 		}
+		throw new BankException("Value must be equal or greater than 0.0");
 	}
 
 	public Double getWithdrawCharge() {
 		return withdrawCharge;
 	}
 
-	public void setWithdrawCharge(Double withdrawCharge) {
+	public void setWithdrawCharge(Double withdrawCharge) throws BankException {
 		if (withdrawCharge >= 0.0) {
 			this.withdrawCharge = withdrawCharge;
+			return;
 		}
+		throw new BankException("Value must be equal or greater than 0.0");
 	}
 
 	public Double getLoanCharge() {
 		return loanCharge;
 	}
 
-	public void setLoanCharge(Double loanCharge) {
-		if (loanCharge >= 0.0) {
+	public void setLoanCharge(Double loanCharge) throws BankException {
+		if (loanCharge >= 0.0 && loanCharge <= 1.0) {
 			this.loanCharge = loanCharge;
+			return;
 		}
+		throw new BankException("Value must be between 0.0 and 1.0");
 	}
 
 	public List<Account> getAccounts() {
@@ -72,21 +82,21 @@ public class Bank {
 		this.numberOfAccounts = accounts.size();
 	}
 
-	public boolean addAccount(Account account) {
+	public void addAccount(Account account) throws BankException{
 		if (account != null) {
 			accounts.add(account);
-			numberOfAccounts++;
-			return true;
+			numberOfAccounts++;			
+			return;
 		}
-		return false;
+		throw new BankException("You can't add a null account to the account list!");
 	}
 
-	public boolean removeAccount(Account account) {
+	public void removeAccount(Account account) throws BankException{
 		if (account != null && accounts.contains(account)) {
 			accounts.remove(account);
-			return true;
+			return;
 		}
-		return false;
+		throw new BankException("You can't remove a null account from the account list!");
 	}
 
 	@Override

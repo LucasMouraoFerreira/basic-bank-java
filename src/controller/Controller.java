@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.InputMismatchException;
 import java.util.List;
 
 import entities.Account;
@@ -18,12 +19,14 @@ import entities.SavingsAccount;
 import entities.StandardAccount;
 import entities.TransferOrder;
 import entities.enums.OrderType;
+import exceptions.BankException;
+import exceptions.UIException;
 import views.View;
 
 public class Controller {
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
-	public static Bank readFromDatabase() throws NumberFormatException, ParseException {
+	public static Bank readFromDatabase() {
 
 		double trasferCharge = 7.00; // absolute
 		double loanCharge = 0.20; // percentage
@@ -43,6 +46,8 @@ public class Controller {
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
+			} catch (BankException be) {
+				System.out.println("Error: " + be.getMessage());
 			}
 		}
 
@@ -70,6 +75,10 @@ public class Controller {
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
+			} catch (BankException be) {
+				System.out.println("Error: " + be.getMessage());
+			} catch (ParseException pe) {
+				System.out.println("Error: " + pe.getMessage());
 			}
 		}
 
@@ -106,6 +115,8 @@ public class Controller {
 				}
 			} catch (IOException e) {
 				e.printStackTrace();
+			} catch (ParseException pe) {
+				System.out.println("Error: " + pe.getMessage());
 			}
 		}
 
@@ -124,7 +135,6 @@ public class Controller {
 
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter("./database_accounts.txt"))) { // WRITE ACCOUNTS DATA
 																									// TO DATABASE
-
 			List<Account> accounts = bank.getAccounts();
 			for (Account acc : accounts) {
 				bw.write(acc.toString());
@@ -138,7 +148,6 @@ public class Controller {
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter("./database_orderHistory.txt"))) { // WRITE ACCOUNTS
 																										// DATA TO
 																										// DATABASE
-
 			List<Account> accounts = bank.getAccounts();
 			for (Account acc : accounts) {
 				List<Order> orders = acc.getOrderHistory();
@@ -154,63 +163,87 @@ public class Controller {
 
 	public static void manageApplication(Bank bank) {
 		while (true) {
-			char aux = View.indexView();
-			switch (aux) {
-			case 'o':
-				bank.addAccount(View.openAccountView(bank));
-				break;
-			case 'l':
-				Account acc = View.loginView(bank);
-				Controller.manageAccountLogged(acc, bank);
-				break;
-			case 'm':
-				Controller.manageBank(bank);
-				break;
-			default:
-				return;
+			try {
+				char aux = View.indexView();
+				switch (aux) {
+				case 'o':
+					bank.addAccount(View.openAccountView(bank));
+					break;
+				case 'l':
+					Account acc = View.loginView(bank);
+					Controller.manageAccountLogged(acc, bank);
+					break;
+				case 'm':
+					Controller.manageBank(bank);
+					break;
+				default:
+					return;
+				}
+			} catch (BankException be) {
+				System.out.println("Error: " + be.getMessage());
+			} catch (InputMismatchException ie) {
+				System.out.println("Error: " + ie.getMessage());
+			} catch (UIException uie) {
+				System.out.println("Error: " + uie.getMessage());
 			}
 		}
 	}
 
 	public static void manageBank(Bank bank) {
-		char input = View.manageBankView();
+		char input = 'x';
 		while (input != 'b') {
-			switch (input) {
-			case 'c':
-				View.changeChargesView(bank);
-				break;
-			case 'd':
-				View.deleteAccountView(bank);
-				break;
-			case 'i':
-				View.accountInformationView(bank);
-				break;
+			try {
+				input = View.manageBankView();
+				switch (input) {
+				case 'c':
+					View.changeChargesView(bank);
+					break;
+				case 'd':
+					View.deleteAccountView(bank);
+					break;
+				case 'i':
+					View.accountInformationView(bank);
+					break;
+				}
+			} catch (BankException be) {
+				System.out.println("Error: " + be.getMessage());
+			} catch (InputMismatchException ie) {
+				System.out.println("Error: " + ie.getMessage());
+			} catch (UIException uie) {
+				System.out.println("Error: " + uie.getMessage());
 			}
-			input = View.manageBankView();
 		}
 	}
 
 	public static void manageAccountLogged(Account acc, Bank bank) {
-		char input = View.accountLoggedView(acc);
+		char input = 'x';
 		while (input != 'b') {
-			switch (input) {
-			case 't':
-				View.transferView(acc, bank);
-				break;
-			case 'l':
-				View.loanView(acc, bank);
-				break;
-			case 'w':
-				View.withdrawView(acc, bank);
-				break;
-			case 'd':
-				View.depositView(acc);
-				break;
-			case 'o':
-				View.orderHistoryView(acc);
-				break;
+			try {
+				input = View.accountLoggedView(acc);
+				switch (input) {
+				case 't':
+					View.transferView(acc, bank);
+					break;
+				case 'l':
+					View.loanView(acc, bank);
+					break;
+				case 'w':
+					View.withdrawView(acc, bank);
+					break;
+				case 'd':
+					View.depositView(acc);
+					break;
+				case 'o':
+					View.orderHistoryView(acc);
+					break;
+				}
+			} catch (BankException be) {
+				System.out.println("Error: " + be.getMessage());
+			} catch (InputMismatchException ie) {
+				System.out.println("Error: " + ie.getMessage());
+			} catch (UIException uie) {
+				System.out.println("Error: " + uie.getMessage());
 			}
-			input = View.accountLoggedView(acc);
 		}
 	}
 }

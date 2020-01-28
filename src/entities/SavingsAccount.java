@@ -4,6 +4,8 @@ import java.text.SimpleDateFormat;
 
 import java.util.Date;
 
+import exceptions.BankException;
+
 public class SavingsAccount extends Account{
 
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -11,13 +13,13 @@ public class SavingsAccount extends Account{
 	private Date creationDate;
 	private Integer numberOfMonthsActive;
 	
-	public SavingsAccount(String holderName, Integer accountNumber, String password, Date creationDate, Integer numberOfMonthsActive) {
+	public SavingsAccount(String holderName, Integer accountNumber, String password, Date creationDate, Integer numberOfMonthsActive) throws BankException {
 		super(holderName, accountNumber, password);
 		this.creationDate = creationDate;
 		this.numberOfMonthsActive = numberOfMonthsActive;
 	}
 	
-	public SavingsAccount(String holderName, Integer accountNumber, String password, Double balance, Date creationDate, Integer numberOfMonthsActive) {
+	public SavingsAccount(String holderName, Integer accountNumber, String password, Double balance, Date creationDate, Integer numberOfMonthsActive) throws BankException {
 		super(holderName, accountNumber, password, balance);
 		this.creationDate = creationDate;
 		this.numberOfMonthsActive = numberOfMonthsActive;
