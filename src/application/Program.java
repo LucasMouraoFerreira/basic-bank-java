@@ -1,7 +1,5 @@
 package application;
 
-import java.text.ParseException;
-
 import java.util.Locale;
 
 import controller.Controller;
@@ -10,7 +8,7 @@ import entities.Bank;
 
 public class Program {
 
-	public static void main(String[] args) throws NumberFormatException, ParseException {
+	public static void main(String[] args){
 		
 		Locale.setDefault(Locale.US);
 				
