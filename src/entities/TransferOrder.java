@@ -25,6 +25,13 @@ public class TransferOrder extends Order {
 	}
 
 	@Override
+	public void printOrder() {
+		super.printOrder();
+		System.out.println("Total transferred: $" + String.format("%.2f", getValueTransferred())
+		+ " Account that received: " + getAccountToGetPaid() + "\n");
+	}
+	
+	@Override
 	public String toString() {
 		return  super.toString() + 
 				";" + String.format("%.2f", valueTransferred) + 

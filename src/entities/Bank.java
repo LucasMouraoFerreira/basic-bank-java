@@ -98,6 +98,18 @@ public class Bank {
 		}
 		throw new BankException("You can't remove a null account from the account list!");
 	}
+	
+	public Account accountLogin(int accountNumber, String password) throws BankException {
+		Account acc = getAccounts().stream().filter(x -> x.getAccountNumber() == accountNumber).findFirst()
+				.orElse(null);
+		if (acc == null) {
+			throw new BankException("Account not found");
+		}
+		if (!acc.getPassword().equals(password)) {
+			throw new BankException("Invalid password!");
+		}
+		return acc;
+	}
 
 	@Override
 	public String toString() {

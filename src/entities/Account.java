@@ -82,6 +82,10 @@ public class Account {
 		throw new BankException("Withdraw amount must be greater than $0.00 and the account must have enough balance");
 	}
 	
+	public void printAccount() {
+		System.out.println("Holder: " + getHolderName() + " -- Balance: " + String.format("%.2f", getBalance()));
+	}
+	
 	@Override
 	public String toString() {
 		return holderName + 

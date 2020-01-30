@@ -110,6 +110,12 @@ public class StandardAccount extends Account {
 			}
 		}
 	}
+	
+	@Override 
+	public void printAccount() {
+		super.printAccount();
+		System.out.println("Account Type: Standard" );
+	}
 
 	@Override
 	public String toString() {

@@ -33,6 +33,12 @@ public class Order {
 	public Double getTotalValue() {
 		return totalValue;
 	}
+	
+	public void printOrder() {
+		System.out.println("ORDER DATA:");
+		System.out.println("Type: " + getOrderType() + " Total Value: $" +String.format("%.2f", getTotalValue()) 
+		+"\nDate: " + sdf.format(getDate()) + "\n");
+	}
 
 	@Override
 	public String toString() {

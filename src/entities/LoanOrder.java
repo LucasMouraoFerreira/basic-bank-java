@@ -41,6 +41,14 @@ public class LoanOrder extends Order {
 	}
 
 	@Override
+	public void printOrder() {
+		super.printOrder();
+		System.out.println("Loan total value: $" + String.format("%.2f", getLoanValue())
+		+ " Value per installment: $" + String.format("%.2f", getValuePerInstallment())
+		+"\nInstallments: " + getNumberOfPaidInstallments() + "/" + getNumberOfInstallments() + "\n");
+	}
+	
+	@Override
 	public String toString() {
 		return  super.toString() +
 				";" + String.format("%.2f", loanValue) + 

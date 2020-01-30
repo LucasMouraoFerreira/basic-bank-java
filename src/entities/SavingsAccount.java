@@ -47,6 +47,12 @@ public class SavingsAccount extends Account{
 		}
 	}
 
+	@Override 
+	public void printAccount() {
+		super.printAccount();
+		System.out.println("Account Type: Savings" );
+	}
+	
 	@Override
 	public String toString() {
 		return super.toString() + 

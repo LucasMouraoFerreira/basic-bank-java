@@ -1,30 +1,32 @@
 package views;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
 import entities.Account;
 import entities.Bank;
-import entities.LoanOrder;
 import entities.Order;
 import entities.SavingsAccount;
 import entities.StandardAccount;
-import entities.TransferOrder;
 import exceptions.BankException;
 import exceptions.UIException;
 
 public class View {
 
-	private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-	
 	private static Scanner in = new Scanner(System.in);
 	
 	public static void clearScreen() {
 		System.out.print("\033[H\033[2J");
 		System.out.flush();
 	}
-
+	
+	public static void pressEnterToLeave() {
+		System.out.println("\nPress \"Enter\" to leave");
+		in.nextLine();
+		in.nextLine();
+		clearScreen();
+	}
+	
 	public static char indexView() throws UIException {
 		System.out.println("\t\t\tOpen a new account (o)");
 		System.out.println("\t\t\tLogin (l)");
@@ -74,10 +76,7 @@ public class View {
 		}
 		System.out.println("Your account number: " + accountNumber);
 		System.out.println("Account Created!");
-		System.out.println("\nPress \"Enter\" to leave");
-		in.nextLine();
-		in.nextLine();
-		clearScreen();
+		pressEnterToLeave();
 		return acc;
 	}
 
@@ -85,17 +84,10 @@ public class View {
 		System.out.println("\t\t\tLogin");
 		System.out.print("Account number: ");
 		int accountNumber = in.nextInt();
-		Account acc = bank.getAccounts().stream().filter(x -> x.getAccountNumber() == accountNumber).findFirst()
-				.orElse(null);
-		if (acc == null) {
-			throw new BankException("Account not found");
-		}
 		System.out.print("Password: ");
 		in.nextLine();
 		String password = in.nextLine();
-		if (!acc.getPassword().equals(password)) {
-			throw new BankException("Invalid password!");
-		}
+		Account acc = bank.accountLogin(accountNumber, password);
 		clearScreen();
 		return acc;
 	}
@@ -133,10 +125,8 @@ public class View {
 		double amount = in.nextDouble();
 		StandardAccount accAux = (StandardAccount) acc;
 		accAux.transfer(bank, accountNumber, amount);
-		System.out.println("Successful transfer!\nPress \"Enter\" to leave");
-		in.nextLine();
-		in.nextLine();
-		clearScreen();
+		System.out.println("Successful transfer!");
+		pressEnterToLeave();
 	}
 
 	public static void loanView(Account acc, Bank bank) throws BankException {
@@ -148,10 +138,8 @@ public class View {
 		int numberOfInstallments = in.nextInt();
 		StandardAccount accAux = (StandardAccount) acc;
 		accAux.loan(bank, loanAmount,numberOfInstallments);
-		System.out.println("Successful loan! Enjoy the money!\nPress \"Enter\" to leave");
-		in.nextLine();
-		in.nextLine();
-		clearScreen();
+		System.out.println("Successful loan! Enjoy the money!");
+		pressEnterToLeave();
 	}
 
 	public static void withdrawView(Account acc, Bank bank) throws BankException {
@@ -159,10 +147,8 @@ public class View {
 		System.out.print("Enter the amount($) you want to withdraw: ");
 		double withdrawAmount = in.nextDouble();
 		acc.withdraw(withdrawAmount, bank);
-		System.out.println("Successful Withdraw! Enjoy the money!\nPress \"Enter\" to leave");
-		in.nextLine();
-		in.nextLine();
-		clearScreen();
+		System.out.println("Successful Withdraw! Enjoy the money!");
+		pressEnterToLeave();
 	}
 	
 	public static void depositView(Account acc) throws BankException {
@@ -170,31 +156,15 @@ public class View {
 		System.out.print("Enter the amount($) you want to deposit: ");
 		double depositAmount = in.nextDouble();
 		acc.deposit(depositAmount); 		
-		System.out.println("Successful deposit!\nPress \"Enter\" to leave");
-		in.nextLine();
-		in.nextLine();
-		clearScreen();
+		System.out.println("Successful deposit!");
+		pressEnterToLeave();
 	}
 
 	public static void orderHistoryView(Account acc) {
 		for(Order order : acc.getOrderHistory()) {
-			System.out.println("ORDER DATA:");
-			System.out.println("Type: " + order.getOrderType() + " Total Value: $" +String.format("%.2f", order.getTotalValue()) 
-			+"\nDate: " + sdf.format(order.getDate()));
-			if(order instanceof TransferOrder) {
-				System.out.println("Total transferred: $" + String.format("%.2f", ((TransferOrder)order).getValueTransferred())
-				+ " Account that received: " + ((TransferOrder)order).getAccountToGetPaid());
-			}else if(order instanceof LoanOrder) {
-				System.out.println("Loan total value: $" + String.format("%.2f", ((LoanOrder)order).getLoanValue())
-				+ " Value per installment: $" + String.format("%.2f", ((LoanOrder)order).getValuePerInstallment())
-				+"\nInstallments: " + ((LoanOrder)order).getNumberOfPaidInstallments() + "/" +((LoanOrder)order).getNumberOfInstallments());
-			}
-			System.out.println();
+			order.printOrder();				
 		}
-		System.out.println("\nPress \"Enter\" to leave");
-		in.nextLine();
-		in.nextLine();
-		clearScreen();
+		pressEnterToLeave();
 	}
 
 	public static char manageBankView() throws UIException {
@@ -238,14 +208,10 @@ public class View {
 		if(input == 'y') {
 			System.out.print("Enter new value: ");
 			double income = in.nextDouble();
-			bank.setSavingsAccountIncome(income);;
+			bank.setSavingsAccountIncome(income);
 		}
 		System.out.println("Charges changed!");
-		System.out.println("\nPress \"Enter\" to leave");
-		in.nextLine();
-		in.nextLine();
-		clearScreen();
-		
+		pressEnterToLeave();		
 	}
 
 	public static void deleteAccountView(Bank bank) throws BankException {
@@ -255,35 +221,20 @@ public class View {
 		Account acc = bank.getAccounts().stream().filter(x -> x.getAccountNumber() == accountNumber).findFirst()
 				.orElse(null);
 		bank.removeAccount(acc);
-		System.out.println("Account removed\nPress \"Enter\" to leave");
-		in.nextLine();
-		in.nextLine();
-		clearScreen();
+		System.out.println("Account removed");
+		pressEnterToLeave();
 	}
 
-	public static void accountInformationView(Bank bank) {
+	public static void accountInformationView(Bank bank) throws BankException {
 		System.out.println("ACCOUNT INFORMATION");
 		System.out.print("Enter account number: ");
 		int accountNumber = in.nextInt();
 		Account acc = bank.getAccounts().stream().filter(x -> x.getAccountNumber() == accountNumber).findFirst()
 				.orElse(null);
 		if(acc == null) {
-			System.out.println("Account not found!");
-			System.out.println("\nPress \"Enter\" to leave");
-			in.nextLine();
-			in.nextLine();
-			clearScreen();
-			return;
+			throw new BankException("Account not found");
 		}
-		System.out.println("Holder: " + acc.getHolderName() + " -- Balance: " + String.format("%.2f", acc.getBalance()));
-		if(acc instanceof StandardAccount) {
-			System.out.println("Account Type: Standard" );
-		}else {
-			System.out.println("Account Type: Savings" );
-		}
-		System.out.println("\nPress \"Enter\" to leave");
-		in.nextLine();
-		in.nextLine();
-		clearScreen();
+		acc.printAccount();
+		pressEnterToLeave();
 	}
 }
